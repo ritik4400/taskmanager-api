@@ -30,3 +30,9 @@ http://localhost:5162/api/health
 
 # Cheak db connection status
 http://localhost:5162/api/health/db
+
+# Migrations - First Migration
+dotnet ef migrations add InitialCreate
+
+dotnet ef database update
+

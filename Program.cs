@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using taskmanager_api.Data;
 using taskmanager_api.Services;
 using taskmanager_api.Services.Interfaces;
+using taskmanager_api.Repositories;
+using taskmanager_api.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,10 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connect
 
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IHealthService, HealthService>();
+
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
 var app = builder.Build();
 
