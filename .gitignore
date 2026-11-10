@@ -1,0 +1,46 @@
+
+# Build outputs
+bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+secrets.json
+appsettings.Local.json
+
+# ASP.NET Core HTTPS certificates
+*.pfx
+*.p12
+
+# Test results
+TestResults/
+coverage/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+
+# Operating system files
+.DS_Store
+Thumbs.db
