@@ -22,3 +22,11 @@ A Task Manager REST API built using ASP.NET Core Web API, Entity Framework Core 
 - git commit -m "Project updated"
 - git push .
 
+# dotnet user-secrets init
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=YOUR_POOLER_HOST;Port=5432;Database=postgres;Username=postgres.YOUR_PROJECT_REF;Password=YOUR_PASSWORD;SSL Mode=Require;Trust Server Certificate=true"
+
+# Cheak app health status 
+http://localhost:5162/api/health
+
+# Cheak db connection status
+http://localhost:5162/api/health/db

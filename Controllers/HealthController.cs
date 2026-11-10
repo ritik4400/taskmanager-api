@@ -15,13 +15,22 @@ public class HealthController : ControllerBase
     }
 
 
-    
-
     [HttpGet]
     public IActionResult GetHealth()
     {
         var result = _healthService.GetHealthStatus();
 
         return Ok(result);
+    }
+
+    [HttpGet("db")]
+    public async Task<IActionResult> GetDb()
+    {
+        var connected = await _healthService.CanConnectToDatabaseAsync();
+
+        if (!connected)
+            return StatusCode(503, new { database = "Unreachable" });
+
+        return Ok(new { database = "Connected" });
     }
 }
