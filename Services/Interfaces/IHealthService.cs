@@ -1,0 +1,6 @@
+namespace taskmanager_api.Services.Interfaces;
+
+public interface IHealthService
+{
+    object GetHealthStatus();
+}
