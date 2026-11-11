@@ -1,5 +1,6 @@
 using taskmanager_api.DTOs;
 using taskmanager_api.Entities;
+using taskmanager_api.Exceptions;
 using taskmanager_api.Repositories.Interfaces;
 using taskmanager_api.Services.Interfaces;
 
@@ -23,7 +24,7 @@ public class AuthService : IAuthService
 
         if (await _userRepository.EmailExistsAsync(email))
         {
-            return null;
+            throw new ConflictException("Email is already registered.");
         }
 
         var user = new User
@@ -46,7 +47,7 @@ public class AuthService : IAuthService
 
         if (user is null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
         {
-            return null;
+            throw new UnauthorizedException("Invalid email or password.");
         }
 
         return BuildResponse(user);

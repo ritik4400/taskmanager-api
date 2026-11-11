@@ -22,12 +22,6 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Register(RegisterDto dto)
     {
         var result = await _authService.RegisterAsync(dto);
-
-        if (result is null)
-        {
-            return Conflict(new { message = "Email is already registered." });
-        }
-
         return StatusCode(StatusCodes.Status201Created, result);
     }
 
@@ -35,12 +29,6 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login(LoginDto dto)
     {
         var result = await _authService.LoginAsync(dto);
-
-        if (result is null)
-        {
-            return Unauthorized(new { message = "Invalid email or password." });
-        }
-
         return Ok(result);
     }
 

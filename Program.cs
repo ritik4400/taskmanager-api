@@ -8,7 +8,7 @@ using taskmanager_api.Repositories.Interfaces;
 using taskmanager_api.Services;
 using taskmanager_api.Services.Interfaces;
 using System.Text.Json.Serialization;
-
+using taskmanager_api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +21,8 @@ builder.Services.AddControllers()
     });
     
 builder.Services.AddOpenApi();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 //DB connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -52,8 +54,6 @@ builder.Services
     });
 
 builder.Services.AddAuthorization();
-
-
 builder.Services.AddScoped<IHealthService, HealthService>();
 
 // Repositories
@@ -67,6 +67,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 //Build Application 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

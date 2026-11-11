@@ -1,5 +1,6 @@
 using taskmanager_api.DTOs;
 using taskmanager_api.Entities;
+using taskmanager_api.Exceptions;
 using taskmanager_api.Repositories.Interfaces;
 using taskmanager_api.Services.Interfaces;
 using static taskmanager_api.Entities.TaskItem;
@@ -23,8 +24,8 @@ public class TaskService : ITaskService
 
     public async Task<TaskResponseDto?> GetByIdAsync(int userId, int taskId)
     {
-        var task = await _taskRepository.GetByIdAsync(taskId, userId);
-        return task is null ? null : MapToDto(task);
+        var task = await GetOwnedTaskAsync(taskId, userId);
+        return MapToDto(task);
     }
 
     public async Task<TaskResponseDto> CreateAsync(int userId, CreateTaskDto dto)
@@ -49,11 +50,7 @@ public class TaskService : ITaskService
 
     public async Task<TaskResponseDto?> UpdateAsync(int userId, int taskId, UpdateTaskDto dto)
     {
-        var task = await _taskRepository.GetByIdAsync(taskId, userId);
-        if (task is null)
-        {
-            return null;
-        }
+        var task = await GetOwnedTaskAsync(taskId, userId);
 
         task.Title = dto.Title.Trim();
         task.Description = dto.Description?.Trim();
@@ -68,14 +65,23 @@ public class TaskService : ITaskService
 
     public async Task<bool> DeleteAsync(int userId, int taskId)
     {
-        var task = await _taskRepository.GetByIdAsync(taskId, userId);
-        if (task is null)
-        {
-            return false;
-        }
+        var task = await GetOwnedTaskAsync(taskId, userId);
 
         await _taskRepository.DeleteAsync(task);
         return true;
+    }
+
+    // The "find it or throw 404" logic lives in one place now
+    private async Task<TaskItem> GetOwnedTaskAsync(int userId, int taskId)
+    {
+        var task = await _taskRepository.GetByIdAsync(taskId, userId);
+
+        if (task is null)
+        {
+            throw new NotFoundException("Task not found.");
+        }
+
+        return task;
     }
 
     // Entity -> DTO. Manual mapping is fine at this size; no AutoMapper needed.

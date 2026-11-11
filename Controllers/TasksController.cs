@@ -38,12 +38,6 @@ public class TasksController : ControllerBase
     public async Task<IActionResult> GetById(int id)
     {
         var task = await _taskService.GetByIdAsync(CurrentUserId, id);
-
-        if (task is null)
-        {
-            return NotFound(new { message = "Task not found." });
-        }
-
         return Ok(task);
     }
 
@@ -60,25 +54,13 @@ public class TasksController : ControllerBase
     public async Task<IActionResult> Update(int id, UpdateTaskDto dto)
     {
         var updated = await _taskService.UpdateAsync(CurrentUserId, id, dto);
-
-        if (updated is null)
-        {
-            return NotFound(new { message = "Task not found." });
-        }
-
         return Ok(updated);
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _taskService.DeleteAsync(CurrentUserId, id);
-
-        if (!deleted)
-        {
-            return NotFound(new { message = "Task not found." });
-        }
-
+        await _taskService.DeleteAsync(CurrentUserId, id);
         return NoContent();
     }
 }
