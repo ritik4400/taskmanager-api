@@ -7,13 +7,19 @@ using taskmanager_api.Repositories;
 using taskmanager_api.Repositories.Interfaces;
 using taskmanager_api.Services;
 using taskmanager_api.Services.Interfaces;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+.AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+    
 builder.Services.AddOpenApi();
 
 //DB connection
