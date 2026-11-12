@@ -50,3 +50,13 @@ cd taskmanager_api.Tests
 dotnet new xunit -f net8.0
 dotnet add reference ../TaskManager.Api.csproj
 dotnet add package Moq
+
+# Docker 
+docker --version
+docker info
+# Docker build Image
+docker build -t taskmanager-api .
+
+# Run Docker 
+ docker run --name taskmanager-container -p 8080:8080 taskmanager-api
+ 

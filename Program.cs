@@ -11,7 +11,12 @@ using System.Text.Json.Serialization;
 using taskmanager_api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Hosting platforms tell us which port to listen on via the PORT variable
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
 // Add services to the container.
 
 builder.Services.AddControllers()
