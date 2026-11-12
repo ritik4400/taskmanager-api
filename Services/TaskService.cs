@@ -24,7 +24,7 @@ public class TaskService : ITaskService
 
     public async Task<TaskResponseDto?> GetByIdAsync(int userId, int taskId)
     {
-        var task = await GetOwnedTaskAsync(taskId, userId);
+        var task = await GetOwnedTaskAsync(userId , taskId);
         return MapToDto(task);
     }
 
@@ -50,7 +50,7 @@ public class TaskService : ITaskService
 
     public async Task<TaskResponseDto?> UpdateAsync(int userId, int taskId, UpdateTaskDto dto)
     {
-        var task = await GetOwnedTaskAsync(taskId, userId);
+        var task = await GetOwnedTaskAsync(userId , taskId);
 
         task.Title = dto.Title.Trim();
         task.Description = dto.Description?.Trim();
@@ -65,7 +65,7 @@ public class TaskService : ITaskService
 
     public async Task<bool> DeleteAsync(int userId, int taskId)
     {
-        var task = await GetOwnedTaskAsync(taskId, userId);
+        var task = await GetOwnedTaskAsync( userId , taskId);
 
         await _taskRepository.DeleteAsync(task);
         return true;

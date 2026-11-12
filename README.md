@@ -44,3 +44,9 @@ dotnet ef database update
 # List Package 
 dotnet list package
 
+# Create test Environment
+mkdir taskmanager_api.Tests
+cd taskmanager_api.Tests
+dotnet new xunit -f net8.0
+dotnet add reference ../TaskManager.Api.csproj
+dotnet add package Moq
